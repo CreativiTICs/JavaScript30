@@ -58,7 +58,23 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
-
+  window.addEventListener('keydown', function(e){
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+    if(!audio) return; //Evitar que la función ejecute las teclas que no están asignadas
+    audio.currentTime=0; //Regresar el audio al inicio para que suene cada que oprimimos la tecla
+    audio.play();
+    key.classList.add('playing'); //Agregarle la clase playing a la clase key
+    
+  });
+  //Hacer que la animación al oprimir la tecla se reinicie
+  function removeTransition(e){
+    if(e.propertyName !== 'transform') return; //Skip si no es un transform
+    this.classList.remove('playing'); //
+  }
+  const keys = document.querySelectorAll('.key');
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+  
 </script>
 
 
